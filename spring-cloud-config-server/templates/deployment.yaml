@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "spring-cloud-config-server.fullname" . }}
+  labels:
+    {{- include "spring-cloud-config-server.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "spring-cloud-config-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "spring-cloud-config-server.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "spring-cloud-config-server.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          {{- if .Values.config.git.uri }}
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
+              value: "{{ .Values.config.git.uri }}"
+          {{- end }}
+          {{- if .Values.config.git.username }}
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "spring-cloud-config-server.fullname" . }}-git-creds"
+                  key: "username"
+          {{- end }}
+          {{- if .Values.config.git.password }}
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "spring-cloud-config-server.fullname" . }}-git-creds"
+                  key: "password"
+          {{- end }}
+          {{- if .Values.config.git.cloneOnStart }}
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_CLONEONSTART
+              value: "{{ .Values.config.git.cloneOnStart }}"
+          {{- end }}
+          {{- if .Values.config.git.searchPaths }}
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCHPATHS
+              value: "{{ .Values.config.git.searchPaths }}"
+          {{- end }}
+          {{- if .Values.extraEnv }}
+            {{- toYaml .Values.extraEnv | nindent 10 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8888
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: ssh-dir
+              readOnly: true
+              mountPath: "/root/.ssh/"
+      volumes:
+        - name: ssh-dir
+          secret:
+            secretName: {{ include "spring-cloud-config-server.fullname" . }}-git-ssh-auth
+            items:
+              - key: id_rsa
+                path: id_rsa
+              - key: known_hosts
+                path: known_hosts
+            defaultMode: 0600
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
