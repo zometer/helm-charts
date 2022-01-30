@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: hyness/spring-cloud-config-server
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -38,7 +38,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8888
 
 ingress:
   enabled: false
@@ -80,3 +80,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+extraEnvs: []
+
+config: 
+  git: 
+    uri: ""
+    cloneOnStart: "true"
+    searchPaths: "{application}"
+    username: "" 
+    password: ""
+    # ssh key file content must be base64 encoded before adding as a value. 
+    # Both privateKey and knownHosts are required when using SSH authentication.
+    ssh: 
+      privateKey: "" 
+      knownHosts: ""
+
