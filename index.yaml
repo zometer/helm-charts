@@ -3,6 +3,16 @@ entries:
   spring-cloud-config-server:
   - apiVersion: v2
     appVersion: 3.1.0-jre11
+    created: "2022-01-30T22:45:01.52570747Z"
+    description: A Helm chart for Kubernetes
+    digest: 785d0e1e509b94ebb2fd578b5f5eed815dc280b130ede2f21c55c06995e86083
+    name: spring-cloud-config-server
+    type: application
+    urls:
+    - https://github.com/zometer/helm-charts/releases/download/spring-cloud-config-server-0.1.1/spring-cloud-config-server-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 3.1.0-jre11
     created: "2022-01-30T22:18:00.405383819Z"
     description: A Helm chart for Kubernetes
     digest: 3384cbc3ed646e2c1b64b54c7d9d381411befbe9f19a5df0248abcb363bb42ac
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/zometer/helm-charts/releases/download/spring-cloud-config-server-0.1.0/spring-cloud-config-server-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-30T22:18:00.405390619Z"
+generated: "2022-01-30T22:45:01.52571937Z"
