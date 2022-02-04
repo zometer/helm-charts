@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   mpqdata-loader:
   - apiVersion: v2
+    appVersion: 0.8.2
+    created: "2022-02-04T05:11:02.723566639Z"
+    description: Chart defining the mpqdata-loader job.
+    digest: ffacaa51943bdad49178337051f3d23b3e3b2b8da4380d24af941876bc3b13c5
+    name: mpqdata-loader
+    type: application
+    urls:
+    - https://github.com/zometer/helm-charts/releases/download/mpqdata-loader-0.8.2/mpqdata-loader-0.8.2.tgz
+    version: 0.8.2
+  - apiVersion: v2
     appVersion: 0.8.1
     created: "2022-02-03T05:34:24.229524947Z"
     description: Chart defining the mpqdata-loader job.
@@ -52,4 +62,4 @@ entries:
     urls:
     - https://github.com/zometer/helm-charts/releases/download/spring-cloud-config-server-0.1.0/spring-cloud-config-server-0.1.0.tgz
     version: 0.1.0
-generated: "2022-02-03T05:34:24.215722458Z"
+generated: "2022-02-04T05:11:02.722721303Z"
