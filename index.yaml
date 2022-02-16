@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   mpqdata-api:
   - apiVersion: v2
+    appVersion: 0.1.2
+    created: "2022-02-16T04:39:53.337854134Z"
+    description: An API for accessing for querying Marvel Puzzle Quest and community
+      sourced data.
+    digest: 9c82e9e0aadfb83e8e3e3e6ba2de31f9e94f5dde4949e0ba617ab736a7d76d32
+    name: mpqdata-api
+    type: application
+    urls:
+    - https://github.com/zometer/helm-charts/releases/download/mpqdata-api-0.1.2/mpqdata-api-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: 0.1.0
     created: "2022-02-11T17:53:05.984985109Z"
     description: An API for accessing for querying Marvel Puzzle Quest and community
@@ -85,4 +96,4 @@ entries:
     urls:
     - https://github.com/zometer/helm-charts/releases/download/spring-cloud-config-server-0.1.0/spring-cloud-config-server-0.1.0.tgz
     version: 0.1.0
-generated: "2022-02-11T17:53:05.983600388Z"
+generated: "2022-02-16T04:39:53.336842934Z"
